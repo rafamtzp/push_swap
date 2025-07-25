@@ -11,7 +11,7 @@ void	swap_a(t_stack	**a)  // WORKS :D
 	(*a)->next = ptr->next;  // relink first to third
 	ptr->next = *a; // relink second to first
 	*a = ptr; // make second t_stack the first one.
-	ft_printf("sa\n");
+	//ft_printf("sa\n");
 }
 
 void	swap_b(t_stack	**b) // WORKS :D
@@ -25,7 +25,7 @@ void	swap_b(t_stack	**b) // WORKS :D
 	(*b)->next = ptr->next;  // relink first to third
 	ptr->next = *b; // relink second to first
 	*b = ptr; // make second t_stack the first one.
-	ft_printf("sb\n");
+	//ft_printf("sb\n");
 }
 
 void	swap_ab(t_stack **a, t_stack **b) // WORKS :D
@@ -34,7 +34,7 @@ void	swap_ab(t_stack **a, t_stack **b) // WORKS :D
 		return ;
 	swap_a(a);
 	swap_b(b);
-	ft_printf("ss\n");
+	//ft_printf("ss\n");
 }
 
 void	push_a(t_stack **a, t_stack **b) // WORKS :D
@@ -47,7 +47,7 @@ void	push_a(t_stack **a, t_stack **b) // WORKS :D
 	*a = *b;
 	*b = (*b)->next;
 	(*a)->next = ptra;
-	ft_printf("pa\n");
+	//ft_printf("pa\n");
 }
 
 void	push_b(t_stack **a, t_stack **b) // WORKS :D
@@ -60,5 +60,5 @@ void	push_b(t_stack **a, t_stack **b) // WORKS :D
 	*b = *a;
 	*a = (*a)->next;
 	(*b)->next = ptrb;
-	ft_printf("pb\n");
+	//ft_printf("pb\n");
 }

@@ -13,7 +13,7 @@ void	rotate_a(t_stack **a) // WORKS :D
 	*a = (*a)->next;
 	ptra = ptra->next;
 	ptra->next = NULL;
-	ft_printf("ra\n");
+	//ft_printf("ra\n");
 }
 
 void	rotate_b(t_stack **b) // WORKS :D
@@ -29,7 +29,7 @@ void	rotate_b(t_stack **b) // WORKS :D
 	*b = (*b)->next;
 	ptrb = ptrb->next;
 	ptrb->next = NULL;
-	ft_printf("rb\n");
+	//ft_printf("rb\n");
 }
 
 void	rotate_ab(t_stack **a, t_stack **b) // works :D
@@ -38,5 +38,5 @@ void	rotate_ab(t_stack **a, t_stack **b) // works :D
 		return ;
 	rotate_a(a);
 	rotate_b(b);
-	ft_printf("rr\n");
+	//ft_printf("rr\n");
 }

@@ -17,7 +17,7 @@ void	reverse_rotate_a(t_stack **a) // WORKS :D
 	while (ptrb->next != ptra)
 		ptrb = ptrb->next;
 	ptrb->next = NULL;
-	ft_printf("rra\n");
+	//ft_printf("rra\n");
 }
 
 void	reverse_rotate_b(t_stack **b) // WORKS :D
@@ -36,7 +36,7 @@ void	reverse_rotate_b(t_stack **b) // WORKS :D
 	while (ptrc->next != ptrb)
 		ptrc = ptrc->next;
 	ptrc->next = NULL;
-	ft_printf("rrb\n");
+	//ft_printf("rrb\n");
 }
 
 void	reverse_rotate_ab(t_stack **a, t_stack **b) // WORKS :D
@@ -45,5 +45,5 @@ void	reverse_rotate_ab(t_stack **a, t_stack **b) // WORKS :D
 		return ;
 	reverse_rotate_a(a);
 	reverse_rotate_b(b);
-	ft_printf("rrr\n");
+	//ft_printf("rrr\n");
 }
