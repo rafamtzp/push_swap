@@ -38,7 +38,7 @@ int	printhex(unsigned int num, char format)
 	count = 0;
 	while (num != 0)
 	{
-		if (num % 16 >= 0 && num % 16 <= 9)
+		if (num % 16 > 0 && num % 16 <= 9)
 			arr[count++] = num % 16 + '0';
 		else if (format == 'X')
 			arr[count++] = 'A' + (num % 16 - 10);

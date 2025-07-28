@@ -81,7 +81,9 @@ void	stackargs(t_stack** a, long *longarr, int argc, char **argv)
 	}
 	setindices(a);
 }
-
+// IDEA: calculate moves JUST to see which one is cheapest, but INSTEAD
+// do your rotations in a loop until one of the targets is at the top and THEN do the other one
+// rather than doing each a pre-calculated, specific number of times.
 
 void	push_swap(t_stack	**a, t_stack **b, int argc, char **argv)
 {

@@ -80,6 +80,7 @@ void setbelowmedian(t_stack **a)
 	t_stack	*ptr;
 	float median;
 
+	setpositions(a);
 	ptr = *a;
 	if (*a == NULL)
 		return ;
@@ -128,7 +129,6 @@ void	sort_three(t_stack **a)
 
 	if (ps_lstsize(*a) < 3 || issorted(a) == 1)
 		return ;
-	setpositions(a);
 	setbelowmedian(a);
 	min = findmin(a, NULL);
 	if (*a == min)
@@ -164,175 +164,177 @@ void	sort_four(t_stack **a, t_stack **b)  // not sure if optimized....
 		reverse_rotate_a(a);
 }
 
-int resultsmin(int results[])
+void	setrotvalues(t_stack **a, t_stack **b)
 {
+	t_stack *ptr;
+
+	ptr = *a;
+	while (ptr != NULL)
+	{
+		setpositions(a);
+		setpositions(b);
+		ptr->Pa = ptr->position;
+		ptr->Pb = ptr->target->position;
+		ptr->Na = ps_lstsize(*a) - ptr->position;
+		ptr->Nb = ps_lstsize(*b) - ptr->target->position;
+		ptr = ptr->next;
+	}
+}
+
+int	findrotoutcome(int pp, int nn, int pn, int np)
+{
+	int arr[4];
 	int min;
 	int i;
 	int outcome;
 
-	i = 0;
+	arr[0] = pp;
+	arr[1] = nn;
+	arr[2] = pn;
+	arr[3] = np;
+	min = arr[0];
 	outcome = 0;
-	min = results[0];
+	i = 0;
 	while (i < 4)
 	{
-		if (results[i] < min)
+		if (arr[i] < min)
 		{
-			min = results[i];
+			min = arr[i];
 			outcome = i;
 		}
 		i++;
 	}
 	return (outcome);
 }
-
-int setrotoutcome(int Pa, int Pb, int Na, int Nb)
-{
-	int results[4];
-
-	if (Pa > Pb)
-		results[0] = Pa;
-	else
-		results[0] = Pb;
-	if (Na > Nb)
-		results[1] = Na;
-	else
-		results[1] = Nb;
-	results[2] = Pa + Nb;
-	results[3] = Na + Pb;
-	return (resultsmin(results));
-}
-
-int greq(int a, int b)
+int	greq(int a, int b)
 {
 	if (a >= b)
 		return (a);
 	return (b);
 }
 
-void setrotcost(t_stack *ptr)
-{
-	if (ptr->rot_outcome == 0)
-		ptr->rot_cost = greq(ptr->Pa, ptr->Pb);
-	else if (ptr->rot_outcome == 1)
-		ptr->rot_cost = greq(ptr->Na, ptr->Nb);
-	else if (ptr->rot_outcome == 2)
-		ptr->rot_cost = ptr->Pa + ptr->Nb;
-	else if (ptr->rot_outcome == 3)
-		ptr->rot_cost = ptr->Na + ptr->Pb;
-}
-
-void setcosts(t_stack **a, t_stack **b)
+void	set_costs_and_outcomes(t_stack **a)
 {
 	t_stack *ptr;
-	
+
 	ptr = *a;
 	while (ptr != NULL)
 	{
-		setpositions(a);
-		setpositions(b);  // I think I forgot to set positions for both!
-		ptr->Pa = ptr->position;
-		ptr->Na = ps_lstsize(*a) - ptr->position;
-		ptr->Pb = ptr->target->position;
-		ptr->Nb = ps_lstsize(*b) - ptr->target->position;
-		ptr->rot_outcome = setrotoutcome(ptr->Pa, ptr->Pb, ptr->Na, ptr->Nb);
-		setrotcost(ptr);
+		ptr->rot_outcome = findrotoutcome(greq(ptr->Pa, ptr->Pb), greq(ptr->Na, ptr->Nb), ptr->Pa + ptr->Nb, ptr->Na + ptr->Pb);
+		if (ptr->rot_outcome == 0)
+			ptr->rot_cost = greq(ptr->Pa, ptr->Pb);
+		else if (ptr->rot_outcome == 1)
+			ptr->rot_cost = greq(ptr->Na, ptr->Nb);
+		else if (ptr->rot_outcome == 2)
+			ptr->rot_cost = ptr->Pa + ptr->Nb;
+		else if (ptr->rot_outcome == 3)
+			ptr->rot_cost = ptr->Na + ptr->Pb;
 		ptr = ptr->next;
 	}
 }
 
-t_stack	*findmincost(t_stack **s)
+t_stack *cheapestnode(t_stack **a)
 {
-	t_stack	*ptr;
-	t_stack *min;
-	
-	ptr = *s;
-	min = *s;
+	t_stack *ptr;
+	t_stack *cheapest;
+
+	ptr = *a;
+	cheapest = *a;
 	while (ptr != NULL)
 	{
-		if (ptr->rot_cost < min->rot_cost)
-			min = ptr;
+		if (ptr->rot_cost < cheapest->rot_cost)
+			cheapest = ptr;
 		ptr = ptr->next;
 	}
-	return (min);
-}
-
-void rotate(t_stack **a, t_stack **b, int times, int dir)
-{
-	int i;
-	
-	i = 0;
-	while (a != NULL && b != NULL && i++ < times && dir == 1)
-		rotate_ab(a, b);
-	while (a != NULL && b != NULL && i++ < times && dir == -1)
-		reverse_rotate_ab(a, b);
-	while (a != NULL && b == NULL && i++ < times && dir == 1)
-		rotate_a(a);
-	while (a != NULL && b == NULL && i++ < times && dir == -1)
-		reverse_rotate_a(a);
-	while (a == NULL && b != NULL && i++ < times && dir == 1)
-		rotate_b(b);
-	while (a == NULL && b != NULL && i++ < times && dir == -1)
-		reverse_rotate_b(b);
+	return (cheapest);
 }
 
 int lesseq(int a, int b)
 {
 	if (a <= b)
-	return (a);
+		return (a);
 	return (b);
 }
 
-void do_rotateboth(t_stack **a, t_stack **b, t_stack *mincost)
+void	rotate(t_stack **a, t_stack **b, int num, int dir)
 {
-	if (mincost->rot_outcome == 0)
-	{
-		rotate(a, b, lesseq(mincost->Pa, mincost->Pb), 1);
-		if (mincost->Pa > mincost->Pb)
-			rotate(a, NULL, mincost->Pa - mincost->Pb, 1);
-		else if (mincost->Pb > mincost->Pa)
-			rotate(NULL, b, mincost->Pb, 1);
-	}
-	else if (mincost->rot_outcome == 1)
-	{
-		rotate(a, b, lesseq(mincost->Na, mincost->Nb), -1);
-		if (mincost->Na > mincost->Nb)
-			rotate(a, NULL, mincost->Na - mincost->Nb, -1);
-		else if (mincost->Nb > mincost->Na)
-			rotate(NULL, b, mincost->Nb, -1);
-	}
+	int i;
+
+	i = 0;
+	while (a != NULL && b != NULL && i++ < num && dir == 1)
+		rotate_ab(a, b);
+	i = 0;
+	while (a != NULL && b != NULL && i++ < num && dir == -1)
+		reverse_rotate_ab(a, b);
+	i = 0;
+	while (a == NULL && b != NULL && i++ < num && dir == 1)
+		rotate_b(b);
+	i = 0;
+	while (a == NULL && b != NULL && i++ < num && dir == -1)
+		reverse_rotate_b(b);
+	i = 0;
+	while (a != NULL && b == NULL && i++ < num && dir == 1)
+		rotate_a(a);
+	i = 0;
+	while (a != NULL && b == NULL && i++ < num && dir == -1)
+		reverse_rotate_a(a);
 }
-	
-void do_rotate(t_stack **a, t_stack **b, t_stack *mincost)
+
+void	executerotations1(t_stack **a, t_stack **b, t_stack *cheapest)
 {
-	if (mincost->rot_outcome == 2)
+	if (cheapest->rot_outcome == 0)
 	{
-		rotate(a, NULL, mincost->Pa, 1);
-		rotate(NULL, b, mincost->Nb, -1);
+		rotate(a, b, lesseq(cheapest->Pa, cheapest->Pb), 1);
+		if (cheapest->Pa >= cheapest->Pb)
+			rotate(a, NULL, cheapest->Pa - cheapest->Pb, 1);
+		else
+			rotate(NULL, b, cheapest->Pb - cheapest->Pa, 1);
 	}
-	else if (mincost->rot_outcome == 3)
+	else if (cheapest->rot_outcome == 1)
 	{
-		rotate(a, NULL, mincost->Na, -1);
-		rotate(NULL, b, mincost->Pb, 1);
+		rotate(a, b, lesseq(cheapest->Na, cheapest->Nb), -1);
+		if (cheapest->Na >= cheapest->Nb)
+			rotate(a, NULL, cheapest->Na - cheapest->Nb, -1);
+		else
+			rotate(NULL, b, cheapest->Nb - cheapest->Na, -1);
 	}
 }
 
-void push_all_a(t_stack **a, t_stack **b)
+void	executerotations2(t_stack **a, t_stack **b, t_stack *cheapest)
+{
+	if (cheapest->rot_outcome == 2)
+	{
+		rotate(a, NULL, cheapest->Pa, 1);
+		rotate(NULL, b, cheapest->Nb, -1);
+	}
+	else if (cheapest->rot_outcome == 3)
+	{
+		rotate(a, NULL, cheapest->Na, -1);
+		rotate(NULL, b, cheapest->Pb, 1);
+	}
+}
+void donothing(void)
+{
+	return ;
+}
+void	push_all_a(t_stack **a, t_stack **b)
 {
 	t_stack	*min;
-	setbelowmedian(a);
 	while (*b != NULL)
 	{
+		setbelowmedian(a);
 		settargets_b(a, b);
 		while (*a != (*b)->target)
 		{
 			settargets_b(a, b);
 			if ((*b)->target->below_median == 1)
 				reverse_rotate_a(a);
-		else
-			rotate_a(a);
+			else
+				rotate_a(a);
 		}
 		push_a(a, b);
 	}
+	donothing();
 	setbelowmedian(a);
 	min = findmin(a, NULL);
 	while (min->below_median == 0 && *a != min) // or issorted == 0 instead?
@@ -341,46 +343,62 @@ void push_all_a(t_stack **a, t_stack **b)
 		reverse_rotate_a(a);
 }
 
+void	ps_lstclear(t_stack **lst)
+{
+	t_stack	*ptr1;
+	t_stack	*ptr2;
+
+	if (lst == 0 || *lst == 0)
+		return ;
+	ptr1 = *lst;
+	while (ptr1->next != 0)
+	{
+		ptr2 = ptr1->next;
+		free(ptr1);
+		ptr1 = ptr2;
+	}
+	free(ptr1);
+	*lst = 0;
+	lst = 0;
+}
+
 void	sort_several(t_stack **a, t_stack **b)
 {
-	t_stack *mincost;
-	
 	push_b(a, b); // push first two entries
 	push_b(a, b);
+
 	while (ps_lstsize(*a) > 3)
 	{
-		settargets(a, b); // we set the targets
-		setcosts(a, b); // this will calculate Pa Pb Na Nb for all nodes in a, the rotation outcome, and the total cost
-		
-		mincost = findmincost(a); // find the minimum cost
-		if (mincost->rot_outcome == 0 || mincost->rot_outcome == 1) // !!!! Fix THIS!!!  I'm not pushing to b correctly!!!
-			do_rotateboth(a, b, mincost); // executes rotations stored in node with minimal cost
-		else if (mincost->rot_outcome == 2 || mincost->rot_outcome == 3)
-			do_rotate(a, b, mincost);
-		push_b(a, b); // pushes from a to b after rotations
+		settargets(a, b);
+		setrotvalues(a, b);
+		set_costs_and_outcomes(a);
+		if (cheapestnode(a)->rot_outcome == 0 || cheapestnode(a)->rot_outcome == 1)
+			executerotations1(a, b, cheapestnode(a));
+		else if (cheapestnode(a)->rot_outcome == 2 || cheapestnode(a)->rot_outcome == 3)
+			executerotations2(a, b, cheapestnode(a));
+		push_b(a, b);
 	}
 	sort_three(a);
-	setpositions(b);
-	push_all_a(a, b); // calls settargets_b(b, a) and finds and executes rotations before every push
-	//test
-	t_stack *ptra = *a;
-	ft_printf("After:\n");
-	ft_printf("size: %i\n", ps_lstsize(*a));
-	ft_printf("a:\n");
-	while (ptra != NULL)
-	{
-		ft_printf("Value: %i; Index: %i\n", ptra->value, ptra->index);
-		ptra = ptra->next;
-	}
-	t_stack *ptrb = *b;
-	ft_printf("b:\n");
-	for (int j = 0; j < ps_lstsize(*b); j++)
-	{
-		ft_printf("Value: %i; Index: %i\n", ptrb->value, ptrb->index);
-		ptrb = ptrb->next;
-	}
+	push_all_a(a, b);
+	// ft_printf("After:\n");
+	// ft_printf("a:\n");
+	// t_stack *ptra = *a;
+	// for (int i = 0; i < ps_lstsize(*a); i++)
+	// {
+	// 	ft_printf("Index: %i\n", ptra->index);
+	// 	ptra = ptra->next;
+	// }
+	// t_stack *ptrb = *b;
+	// ft_printf("b:\n");
+	// for (int j = 0; j < ps_lstsize(*b); j++)
+	// {
+	// 	ft_printf("%i\n", ptrb->index);
+	// 	ptrb = ptrb->next;
+	// }
+	ps_lstclear(a);  // TODO: Memory leaks.
+					// free memory malloc'd in ft_split, strjoin (for argprep), error cases, etc. 
+	ps_lstclear(b);
 	exit(EXIT_SUCCESS);
-	return ;
 }
 
 void	sort(t_stack **a, t_stack **b)
