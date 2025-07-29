@@ -29,7 +29,7 @@ long	*argprep(int argc, char **argv);
 char	*joinargs(int argc, char **argv);
 
 // prep args helpers
-void	handle_error(long *longarr);
+void	handle_error(long *longarr, char *str, char **arr, int wordcount);
 int	issign(char c);
 long	ps_atol(const char *nptr);
 int	wordcount(char *str);
@@ -39,6 +39,7 @@ int	countdigits(char *str);
 t_stack	*ps_lstnew(int value);
 void	ps_lstadd_back(t_stack **lst, t_stack *new);
 int	ps_lstsize(t_stack *lst);
+void	ps_lstclear(t_stack **lst);
 
 // moves
 void	swap_a(t_stack	**a);

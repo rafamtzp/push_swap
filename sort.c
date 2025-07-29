@@ -313,10 +313,7 @@ void	executerotations2(t_stack **a, t_stack **b, t_stack *cheapest)
 		rotate(NULL, b, cheapest->Pb, 1);
 	}
 }
-void donothing(void)
-{
-	return ;
-}
+
 void	push_all_a(t_stack **a, t_stack **b)
 {
 	t_stack	*min;
@@ -334,7 +331,6 @@ void	push_all_a(t_stack **a, t_stack **b)
 		}
 		push_a(a, b);
 	}
-	donothing();
 	setbelowmedian(a);
 	min = findmin(a, NULL);
 	while (min->below_median == 0 && *a != min) // or issorted == 0 instead?
@@ -343,24 +339,6 @@ void	push_all_a(t_stack **a, t_stack **b)
 		reverse_rotate_a(a);
 }
 
-void	ps_lstclear(t_stack **lst)
-{
-	t_stack	*ptr1;
-	t_stack	*ptr2;
-
-	if (lst == 0 || *lst == 0)
-		return ;
-	ptr1 = *lst;
-	while (ptr1->next != 0)
-	{
-		ptr2 = ptr1->next;
-		free(ptr1);
-		ptr1 = ptr2;
-	}
-	free(ptr1);
-	*lst = 0;
-	lst = 0;
-}
 
 void	sort_several(t_stack **a, t_stack **b)
 {
@@ -395,10 +373,7 @@ void	sort_several(t_stack **a, t_stack **b)
 	// 	ft_printf("%i\n", ptrb->index);
 	// 	ptrb = ptrb->next;
 	// }
-	ps_lstclear(a);  // TODO: Memory leaks.
-					// free memory malloc'd in ft_split, strjoin (for argprep), error cases, etc. 
-	ps_lstclear(b);
-	exit(EXIT_SUCCESS);
+	
 }
 
 void	sort(t_stack **a, t_stack **b)

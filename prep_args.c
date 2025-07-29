@@ -4,11 +4,19 @@ char	*joinargs(int argc, char **argv)
 {
 	int i;
 	char *str;
+	char *tmp;
+	char *tmp2;
 
 	i = 2;
 	str = ft_strjoin(argv[1], " ");
 	while (i < argc)
-		str = ft_strjoin(ft_strjoin(str, argv[i++]), " ");
+	{
+		tmp = str;
+		tmp2 = ft_strjoin(tmp, argv[i++]);
+		str = ft_strjoin(tmp2, " ");
+		free(tmp);
+		free(tmp2);
+	}
 	return (str);
 }
 
@@ -79,6 +87,7 @@ long	*argprep(int argc, char **argv)
 	long *longarr;
 	char	**arr;
 	char *str;
+	int i;
 
 	if (argc == 1)
 		return (NULL);
@@ -88,10 +97,13 @@ long	*argprep(int argc, char **argv)
 	if (!longarr || buildchecker(arr, longarr, str) == NULL 
 	|| dupefound(longarr, wordcount(str)) == 1)
 	{
-		handle_error(longarr);
+		handle_error(longarr, str, arr, wordcount(str));
 		return (NULL);
 	}
-	// for (int i = 0; i < wordcount(str) && longarr; i++)
-	// 	ft_printf("%i\n", longarr[i]);
+	i = wordcount(str);
+	free(str);
+	while (i >= 0)
+		free(arr[i--]);
+	free(arr);
 	return (longarr);
 }

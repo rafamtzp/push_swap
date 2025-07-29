@@ -43,3 +43,22 @@ int	ps_lstsize(t_stack *lst)
 	}
 	return (size);
 }
+
+void	ps_lstclear(t_stack **lst)
+{
+	t_stack	*ptr1;
+	t_stack	*ptr2;
+
+	if (lst == 0 || *lst == 0)
+		return ;
+	ptr1 = *lst;
+	while (ptr1->next != 0)
+	{
+		ptr2 = ptr1->next;
+		free(ptr1);
+		ptr1 = ptr2;
+	}
+	free(ptr1);
+	*lst = 0;
+	lst = 0;
+}

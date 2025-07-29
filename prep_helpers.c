@@ -1,9 +1,17 @@
 #include "push_swap.h"
 
-void	handle_error(long *longarr)
+void	handle_error(long *longarr, char *str, char **arr, int wordcount)
 {
 	if (longarr)
 		free(longarr);
+	if (str)
+		free(str);
+	if (arr)
+	{
+		while (wordcount >= 0)
+			free(arr[wordcount--]);
+		free(arr);
+	}
 	write(2, "Error\n", 6); // TODO: write to stderr!!!
 	longarr = NULL;
 	exit(EXIT_FAILURE);

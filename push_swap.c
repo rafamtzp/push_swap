@@ -68,22 +68,27 @@ void	stackargs(t_stack** a, long *longarr, int argc, char **argv)
 
 	if (!longarr)
 	{
-		handle_error(longarr);
+		handle_error(longarr, NULL, NULL, 0);
 		return ;
 	}
 	str = joinargs(argc, argv);
-	size = wordcount(str);
+	size = wordcount(str); // this is just to count words
 	i = 0;
 	while (i < size)
 	{
 		t_stack = ps_lstnew((int)longarr[i++]);
+		if (!t_stack)
+		{
+			ps_lstclear(a);
+			handle_error(longarr, str, NULL, 0);
+			return ;
+		}
 		ps_lstadd_back(a, t_stack);
 	}
+	free(str);
+	free(longarr);
 	setindices(a);
 }
-// IDEA: calculate moves JUST to see which one is cheapest, but INSTEAD
-// do your rotations in a loop until one of the targets is at the top and THEN do the other one
-// rather than doing each a pre-calculated, specific number of times.
 
 void	push_swap(t_stack	**a, t_stack **b, int argc, char **argv)
 {
@@ -91,21 +96,23 @@ void	push_swap(t_stack	**a, t_stack **b, int argc, char **argv)
 	// test
 	sort(a, b);
 	
-	// ptra = *a;
-	// t_stack *ptrb = *b;
-	// ft_printf("After:\n");
-	// ft_printf("a:\n");
-	// for (int i = 0; i < ps_lstsize(*a); i++)
-	// {
-	// 	ft_printf("value: %i\n", ptra->value);
-	// 	ptra = ptra->next;
-	// }
-	// ft_printf("b:\n");
-	// for (int j = 0; j < ps_lstsize(*b); j++)
-	// {
-	// 	ft_printf("%i\n", ptrb->value);
-	// 	ptrb = ptrb->next;
-	// }
+	t_stack *ptra = *a;
+	ft_printf("After:\n");
+	ft_printf("a:\n");
+	for (int i = 0; i < ps_lstsize(*a); i++)
+	{
+		ft_printf("value: %i\n", ptra->value);
+		ptra = ptra->next;
+	}
+	t_stack *ptrb = *b;
+	ft_printf("b:\n");
+	for (int j = 0; j < ps_lstsize(*b); j++)
+	{
+		ft_printf("%i\n", ptrb->value);
+		ptrb = ptrb->next;
+	}
+	ps_lstclear(a);  // TODO: Memory leaks. free memory malloc'd in ft_split, strjoin (for argprep), error cases, etc. 
+	ps_lstclear(b);
 }
 
 int main(int argc, char **argv)
