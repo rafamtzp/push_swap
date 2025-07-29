@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   rotations.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ramarti2 <ramarti2@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/29 13:58:13 by ramarti2          #+#    #+#             */
+/*   Updated: 2025/07/29 14:53:33 by ramarti2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-void	rotate_a(t_stack **a) // WORKS :D
+void	rotate_a(t_stack **a)
 {
 	t_stack	*ptra;
 
@@ -16,9 +28,9 @@ void	rotate_a(t_stack **a) // WORKS :D
 	ft_printf("ra\n");
 }
 
-void	rotate_b(t_stack **b) // WORKS :D
+void	rotate_b(t_stack **b)
 {
-	t_stack *ptrb;
+	t_stack	*ptrb;
 
 	if (*b == NULL || ps_lstsize(*b) == 1)
 		return ;
@@ -32,7 +44,7 @@ void	rotate_b(t_stack **b) // WORKS :D
 	ft_printf("rb\n");
 }
 
-static void	ab_rotate_a(t_stack **a) // WORKS :D
+static void	ab_rotate_a(t_stack **a)
 {
 	t_stack	*ptra;
 
@@ -47,9 +59,9 @@ static void	ab_rotate_a(t_stack **a) // WORKS :D
 	ptra->next = NULL;
 }
 
-static void	ab_rotate_b(t_stack **b) // WORKS :D
+static void	ab_rotate_b(t_stack **b)
 {
-	t_stack *ptrb;
+	t_stack	*ptrb;
 
 	if (*b == NULL || ps_lstsize(*b) == 1)
 		return ;
@@ -62,7 +74,7 @@ static void	ab_rotate_b(t_stack **b) // WORKS :D
 	ptrb->next = NULL;
 }
 
-void	rotate_ab(t_stack **a, t_stack **b) // works :D
+void	rotate_ab(t_stack **a, t_stack **b)
 {
 	if (*b == NULL || ps_lstsize(*b) == 1 || *a == NULL || ps_lstsize(*a) == 1)
 		return ;

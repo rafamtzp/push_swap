@@ -1,34 +1,46 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   swaps_and_pushes.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ramarti2 <ramarti2@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/29 14:00:11 by ramarti2          #+#    #+#             */
+/*   Updated: 2025/07/29 14:53:17 by ramarti2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
-void	swap_a(t_stack	**a)  // WORKS :D
+void	swap_a(t_stack **a)
 {
 	t_stack	*ptr;
 
 	if (ps_lstsize(*a) < 2)
 		return ;
-	ptr = *a; // points to first t_stack of list
-	ptr = ptr->next; // goes to second t_stack
-	(*a)->next = ptr->next;  // relink first to third
-	ptr->next = *a; // relink second to first
-	*a = ptr; // make second t_stack the first one.
+	ptr = *a;
+	ptr = ptr->next;
+	(*a)->next = ptr->next;
+	ptr->next = *a;
+	*a = ptr;
 	ft_printf("sa\n");
 }
 
-void	swap_b(t_stack	**b) // WORKS :D
+void	swap_b(t_stack **b)
 {
-		t_stack	*ptr;
+	t_stack	*ptr;
 
 	if (ps_lstsize(*b) < 2)
 		return ;
-	ptr = *b; // points to first t_stack of list
-	ptr = ptr->next; // goes to second t_stack
-	(*b)->next = ptr->next;  // relink first to third
-	ptr->next = *b; // relink second to first
-	*b = ptr; // make second t_stack the first one.
+	ptr = *b;
+	ptr = ptr->next;
+	(*b)->next = ptr->next;
+	ptr->next = *b;
+	*b = ptr;
 	ft_printf("sb\n");
 }
 
-void	swap_ab(t_stack **a, t_stack **b) // WORKS :D
+void	swap_ab(t_stack **a, t_stack **b)
 {
 	if (ps_lstsize(*b) < 2 || ps_lstsize(*a) < 2)
 		return ;
@@ -37,10 +49,10 @@ void	swap_ab(t_stack **a, t_stack **b) // WORKS :D
 	ft_printf("ss\n");
 }
 
-void	push_a(t_stack **a, t_stack **b) // WORKS :D
+void	push_a(t_stack **a, t_stack **b)
 {
 	t_stack	*ptra;
-	
+
 	if (*b == NULL)
 		return ;
 	ptra = *a;
@@ -50,7 +62,7 @@ void	push_a(t_stack **a, t_stack **b) // WORKS :D
 	ft_printf("pa\n");
 }
 
-void	push_b(t_stack **a, t_stack **b) // WORKS :D
+void	push_b(t_stack **a, t_stack **b)
 {
 	t_stack	*ptrb;
 

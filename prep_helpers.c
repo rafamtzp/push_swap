@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   prep_helpers.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ramarti2 <ramarti2@student.42malaga.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/29 13:45:40 by ramarti2          #+#    #+#             */
+/*   Updated: 2025/07/29 14:01:50 by ramarti2         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 void	handle_error(long *longarr, char *str, char **arr, int wordcount)
@@ -12,12 +24,12 @@ void	handle_error(long *longarr, char *str, char **arr, int wordcount)
 			free(arr[wordcount--]);
 		free(arr);
 	}
-	write(2, "Error\n", 6); // TODO: write to stderr!!!
+	write(2, "Error\n", 6);
 	longarr = NULL;
 	exit(EXIT_FAILURE);
 }
 
-int issign(char c)
+int	issign(char c)
 {
 	if (c == '+')
 		return (1);
@@ -29,7 +41,7 @@ int issign(char c)
 long	ps_atol(const char *nptr)
 {
 	long	num;
-	int	sign;
+	int		sign;
 
 	sign = issign(*nptr);
 	if (sign != 0)
@@ -51,10 +63,10 @@ long	ps_atol(const char *nptr)
 	return (sign * num);
 }
 
-int wordcount(char *str)
+int	wordcount(char *str)
 {
-	int count;
-	int counted;
+	int	count;
+	int	counted;
 
 	count = 0;
 	counted = 0;
@@ -72,9 +84,9 @@ int wordcount(char *str)
 	return (count);
 }
 
-int countdigits(char *str)
+int	countdigits(char *str)
 {
-	int count;
+	int	count;
 
 	count = 0;
 	while (*str == '+' || *str == '-' || *str == '0')
