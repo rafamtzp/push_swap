@@ -6,7 +6,7 @@
 /*   By: ramarti2 <ramarti2@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 13:45:40 by ramarti2          #+#    #+#             */
-/*   Updated: 2025/07/29 14:01:50 by ramarti2         ###   ########.fr       */
+/*   Updated: 2025/07/29 17:17:57 by ramarti2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	handle_error(long *longarr, char *str, char **arr, int wordcount)
 			free(arr[wordcount--]);
 		free(arr);
 	}
-	write(2, "Error\n", 6);
+	write(STDERR_FILENO, "Error\n", 6);
 	longarr = NULL;
 	exit(EXIT_FAILURE);
 }

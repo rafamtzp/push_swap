@@ -6,7 +6,7 @@
 /*   By: ramarti2 <ramarti2@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 14:08:44 by ramarti2          #+#    #+#             */
-/*   Updated: 2025/07/29 14:49:37 by ramarti2         ###   ########.fr       */
+/*   Updated: 2025/07/29 16:41:58 by ramarti2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_stack	*findmin(t_stack **s, t_stack *prevmin)
 		ptr = ptr->next;
 	}
 	if (candidate == NULL)
-		return (*s);
+		return (findmin(s, NULL));
 	return (candidate);
 }
 
