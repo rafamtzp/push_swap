@@ -6,7 +6,7 @@
 /*   By: ramarti2 <ramarti2@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 13:46:00 by ramarti2          #+#    #+#             */
-/*   Updated: 2025/07/29 13:46:03 by ramarti2         ###   ########.fr       */
+/*   Updated: 2025/07/30 15:12:11 by ramarti2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,19 @@ char	*joinargs(int argc, char **argv)
 
 static int	validchars(char *str)
 {
-	int	signcount;
 	int	i;
+	int	digitfound;
 
 	i = 0;
-	signcount = 0;
-	while (str[i] && issign(str[i]) != 0)
+	if (issign(str[i]) != 0)
+		i++;
+	digitfound = 0;
+	while (ft_isdigit(str[i]) == 1)
 	{
-		if (issign(str[i]) != 0)
-			signcount++;
+		digitfound = 1;
 		i++;
 	}
-	if (signcount > 1)
-		return (0);
-	while (ft_isdigit(str[i]) == 1)
-		i++;
-	if (ft_isdigit(str[i]) == 0 && str[i])
+	if ((ft_isdigit(str[i]) == 0 && str[i]) || digitfound == 0)
 		return (0);
 	return (1);
 }
