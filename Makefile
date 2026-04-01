@@ -5,7 +5,7 @@ FT_PRINTF = ft_printf/libftprintf.a
 FT_PRINTF_DIR = ft_printf
 
 SRC = push_swap.c prep_args.c prep_helpers.c stack_args.c list_helpers.c reverse_rotations.c rotations.c \
-	  swaps_and_pushes.c sort.c sort_helpers.c sort_helpers_2.c sort_helpers_3.c sort_helpers_4.c \
+	  swaps_and_pushes.c sort.c sort_helpers_1.c sort_helpers_2.c sort_helpers_3.c sort_helpers_4.c \
 
 OBJ = $(SRC:.c=.o)
 CC = cc

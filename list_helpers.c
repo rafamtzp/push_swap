@@ -6,7 +6,7 @@
 /*   By: ramarti2 <ramarti2@student.42malaga.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/29 14:00:23 by ramarti2          #+#    #+#             */
-/*   Updated: 2025/07/29 14:01:19 by ramarti2         ###   ########.fr       */
+/*   Updated: 2025/08/28 18:19:19 by ramarti2         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ps_lstadd_back(t_stack **lst, t_stack *new)
 	ptr = *lst;
 	if (*lst == 0)
 	{
-		*lst = new;
+		*lst = new;-
 		return ;
 	}
 	while (ptr->next != 0)
