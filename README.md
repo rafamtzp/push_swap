@@ -43,6 +43,7 @@ Run the program with a list of integers as arguments:
 The program will output a sequence of instructions that sort the numbers.
 
 [!] Warning: It is recommended that the list doesn't exceed 500 integers or else it will be a lot slower. This project was evaluated at 500 integers maximum.
+
 ---
 
 ### 🔁 Available Operations
@@ -90,6 +91,7 @@ Use the push-swap visualizer.
 Link: https://push-swap42-visualizer.vercel.app/
 
 Here you can generate or paste in your own list of numbers, paste in the instructions push_swap generates for it, and see visually how your stack gets sorted using these movements!
+
 ---
 
 ### 📊 Performance Requirements
