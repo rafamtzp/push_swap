@@ -27,7 +27,7 @@ clean:
 	@make -C $(FT_PRINTF_DIR) clean
 	rm -f $(OBJ)
 
-fclean:
+fclean: clean
 	@make -C $(LIBFT_DIR) fclean
 	@make -C $(FT_PRINTF_DIR) fclean
 	rm -f $(NAME)
