@@ -33,7 +33,7 @@ void	ps_lstadd_back(t_stack **lst, t_stack *new)
 	ptr = *lst;
 	if (*lst == 0)
 	{
-		*lst = new;-
+		*lst = new;
 		return ;
 	}
 	while (ptr->next != 0)
